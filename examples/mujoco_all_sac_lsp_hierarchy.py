@@ -12,8 +12,8 @@ from rllab.envs.mujoco.humanoid_env import HumanoidEnv
 from rllab.misc.instrument import VariantGenerator
 
 from sac.algos import SAC
-# from sac.envs import (
-#     RandomGoalAntEnv, HierarchyProxyEnv)
+from sac.envs import (
+    RandomGoalAntEnv, HierarchyProxyEnv)
 from sac.misc.instrument import run_sac_experiment
 from sac.misc.utils import timestamp
 from sac.policies import LatentSpacePolicy
@@ -236,9 +236,9 @@ def load_low_level_policy(policy_path):
 
     return policy
 
-# RANDOM_GOAL_ENVS = {
-#     'ant': RandomGoalAntEnv,
-# }
+RANDOM_GOAL_ENVS = {
+    'ant': RandomGoalAntEnv,
+}
 
 
 RLLAB_ENVS = {
