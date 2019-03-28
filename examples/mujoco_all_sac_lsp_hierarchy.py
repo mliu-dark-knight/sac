@@ -291,7 +291,8 @@ def run_experiment(variant):
     )
 
     M = variant['layer_size']
-    qf = NNQFunction(env_spec=env.spec, hidden_layer_sizes=(M, M))
+    qf1 = NNQFunction(env_spec=env.spec, hidden_layer_sizes=(M, M), name='qf1')
+    qf2 = NNQFunction(env_spec=env.spec, hidden_layer_sizes=(M, M), name='qf2')
     vf = NNVFunction(env_spec=env.spec, hidden_layer_sizes=(M, M))
 
     preprocessing_hidden_sizes = variant.get('preprocessing_hidden_sizes')
@@ -319,7 +320,7 @@ def run_experiment(variant):
         mode="train",
         squash=False,
         bijector_config=bijector_config,
-        q_function=qf,
+        q_function=qf1,
         fix_h_on_reset=variant.get('policy_fix_h_on_reset', False),
         observations_preprocessor=observations_preprocessor,
         name="high_level_policy"
@@ -330,7 +331,8 @@ def run_experiment(variant):
         env=env,
         policy=policy,
         pool=pool,
-        qf=qf,
+        qf1=qf1,
+        qf2=qf2,
         vf=vf,
 
         lr=variant['lr'],
