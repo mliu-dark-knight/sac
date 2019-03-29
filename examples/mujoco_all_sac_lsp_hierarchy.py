@@ -330,6 +330,7 @@ def run_experiment(variant):
         base_kwargs=base_kwargs,
         env=env,
         policy=policy,
+	    initial_exploration_policy=None,
         pool=pool,
         qf1=qf1,
         qf2=qf2,
