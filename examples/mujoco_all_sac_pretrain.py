@@ -81,10 +81,10 @@ ENV_PARAMS = {
         'preprocessing_hidden_sizes': (128, 128, 42),
         'policy_s_t_units': 21,
 
-        'snapshot_gap': 2000,
+        'snapshot_gap': 1000,
 
         'behavior_polcy_path': [
-            'humanoid-real-nvp-final-01b-00/itr_10000.pkl',
+            'humanoid-real-nvp-final-01b-00/itr_6000.pkl',
         ]
     },
 }

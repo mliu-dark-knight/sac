@@ -294,7 +294,7 @@ RUN_PARAMS = {
         'snapshot_gap': 4000
     },
     'humanoid-rllab': { # 21 DoF
-        'snapshot_gap': 4000
+        'snapshot_gap': 1000
     },
 }
 
