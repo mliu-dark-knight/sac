@@ -17,6 +17,7 @@ from sac.policies import LatentSpacePolicy
 from sac.preprocessors import MLPPreprocessor
 from sac.replay_buffers import SimpleReplayBuffer
 from sac.value_functions import NNQFunction, NNVFunction
+from examples.variants import M
 
 try:
     import git
@@ -26,13 +27,13 @@ except:
     git_rev = None
 
 COMMON_PARAMS = {
-    'seed': 'random',
+    'seed': [1],
     'lr': 3e-4,
     'discount': 0.99,
     'target_update_interval': 1,
-    'tau': 1e-2,
-    'layer_size': 128,
-    'batch_size': 128,
+    'tau': 5e-3,
+    'layer_size': M,
+    'batch_size': 256,
     'max_pool_size': 1e6,
     'n_train_repeat': 1,
 	'n_initial_exploration_steps': 1000000,
@@ -55,30 +56,14 @@ COMMON_PARAMS = {
 
 
 ENV_PARAMS = {
-    'ant-resume-training': {  # 8 DoF
-        'prefix': 'ant-resume-training',
-        'env_name': 'ant-rllab',
-        'max_path_length': 1000,
-        'n_epochs': int(4e3 + 1),
-        'scale_reward': 3.0,
-
-        'preprocessing_hidden_sizes': (128, 128, 16),
-        'policy_s_t_units': 8,
-
-        'snapshot_gap': 1000,
-
-        'behavior_polcy_path': [
-            'ant-rllab-real-nvp-final-00-00/itr_6000.pkl',
-        ]
-    },
     'humanoid-resume-training': {  # 21 DoF
         'prefix': 'humanoid-resume-training',
         'env_name': 'humanoid-rllab',
         'max_path_length': 1000,
         'n_epochs': int(1e4 + 1),
-        'scale_reward': 3.0,
+        'scale_reward': 10.0,
 
-        'preprocessing_hidden_sizes': (128, 128, 42),
+        'preprocessing_hidden_sizes': (M, M, 42),
         'policy_s_t_units': 21,
 
         'snapshot_gap': 1000,
@@ -133,7 +118,7 @@ def get_variants(args):
     return vg
 
 
-def load_behavior_polcy(policy_path):
+def load_behavior_policy(policy_path):
     with tf_utils.get_default_session().as_default():
         with tf.variable_scope("behavior_polcy", reuse=False):
             snapshot = joblib.load(policy_path)
@@ -150,7 +135,7 @@ RLLAB_ENVS = {
 
 
 def run_experiment(variant):
-    behavior_polcy = load_behavior_polcy(
+    behavior_polcy = load_behavior_policy(
         policy_path=variant['behavior_polcy_path'])
 
     env_args = {
