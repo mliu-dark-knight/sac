@@ -246,7 +246,7 @@ ALGORITHM_PARAMS = {
     'humanoid-rllab': { # 21 DoF
         'scale_reward': 10,
         'base_kwargs': {
-            'n_epochs': 1e4,
+            'n_epochs': 2e4,
         }
     },
     'humanoid-standup-gym': { # 17 DoF
