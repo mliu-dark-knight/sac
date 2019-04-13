@@ -216,6 +216,7 @@ def run_experiment(variant):
         mode="train",
         squash=variant['squash'],
         bijector_config=bijector_config,
+        # TODO: figure out what fix_h_on_reset and reparameterize is doing
         reparameterize=variant['reparameterize'],
         q_function=qf1,
         observations_preprocessor=observations_preprocessor,
@@ -235,6 +236,8 @@ def run_experiment(variant):
         scale_reward=variant['scale_reward'],
         discount=variant['discount'],
         tau=variant['tau'],
+        # TODO: figure out what reparameterize is doing
+        reparameterize=variant['reparameterize'],
         target_update_interval=variant['target_update_interval'],
         action_prior=variant['action_prior'],
 
