@@ -91,19 +91,20 @@ class RLAlgorithm(Algorithm):
                                       save_itrs=True):
                 logger.push_prefix('Epoch #%d | ' % epoch)
 
+                if not initial_exploration_done:
+                    if initial_is_behavior:
+                        # avoid value function overflow
+                        if random.random() > 0.5:
+                            self.sampler.set_policy(policy)
+                        else:
+                            self.sampler.set_policy(initial_exploration_policy)
+
                 for t in range(self._epoch_length):
                     # TODO.codeconsolidation: Add control interval to sampler
                     if not initial_exploration_done:
                         if self._epoch_length * epoch >= self._n_initial_exploration_steps:
                             self.sampler.set_policy(policy)
                             initial_exploration_done = True
-                        else:
-                            if initial_is_behavior:
-                                # avoid value function overflow
-                                if random.random() > 0.5:
-                                    self.sampler.set_policy(policy)
-                                else:
-                                    self.sampler.set_policy(initial_exploration_policy)
                     self.sampler.sample()
                     if not self.sampler.batch_ready():
                         continue
