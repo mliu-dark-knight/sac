@@ -62,7 +62,7 @@ class RLAlgorithm(Algorithm):
         self._policy = None
         self._pool = None
 
-    def _train(self, env, policy, initial_exploration_policy, pool, initial_is_behavior=False):
+    def _train(self, env, policy, initial_exploration_policy, pool):
         """Perform RL training.
 
         Args:
@@ -71,7 +71,6 @@ class RLAlgorithm(Algorithm):
             initial_exploration_policy ('Policy'): Policy used for exploration
                 If None, then all exploration is done using policy
             pool (`PoolBase`): Sample pool to add samples to
-            initial_is_behavior (`bool`): use initial_exploration_policy as behavior policy
         """
 
         self._init_training(env, policy, pool)
@@ -90,14 +89,6 @@ class RLAlgorithm(Algorithm):
             for epoch in gt.timed_for(range(self._n_epochs + 1),
                                       save_itrs=True):
                 logger.push_prefix('Epoch #%d | ' % epoch)
-
-                if not initial_exploration_done:
-                    if initial_is_behavior:
-                        # avoid value function overflow
-                        if random.random() > 0.5:
-                            self.sampler.set_policy(policy)
-                        else:
-                            self.sampler.set_policy(initial_exploration_policy)
 
                 for t in range(self._epoch_length):
                     # TODO.codeconsolidation: Add control interval to sampler
