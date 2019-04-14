@@ -71,7 +71,7 @@ class RLAlgorithm(Algorithm):
             initial_exploration_policy ('Policy'): Policy used for exploration
                 If None, then all exploration is done using policy
             pool (`PoolBase`): Sample pool to add samples to
-            is_behavior (`bool`): use initial_exploration_policy as behavior policy
+            initial_is_behavior (`bool`): use initial_exploration_policy as behavior policy
         """
 
         self._init_training(env, policy, pool)
@@ -99,6 +99,7 @@ class RLAlgorithm(Algorithm):
                             initial_exploration_done = True
                         else:
                             if initial_is_behavior:
+                                # avoid value function overflow
                                 if random.random() > 0.5:
                                     self.sampler.set_policy(policy)
                                 else:
