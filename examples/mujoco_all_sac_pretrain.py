@@ -28,9 +28,9 @@ except:
 
 COMMON_PARAMS = {
     'seed': [1],
-    'lr': 3e-4,
+    'lr': 1e-4,
     'discount': 0.99,
-    'target_update_interval': 1,
+    'target_update_interval': 1000,
     'tau': 5e-3,
     'layer_size': M,
     'batch_size': 256,
@@ -61,7 +61,7 @@ ENV_PARAMS = {
         'env_name': 'humanoid-rllab',
         'max_path_length': 1000,
         'n_epochs': int(1e4 + 1),
-        'scale_reward': 10.0,
+        'scale_reward': 10,
 
         'preprocessing_hidden_sizes': (M, M, 42),
         'policy_s_t_units': 21,
