@@ -1,10 +1,10 @@
 import abc
-import gtimer as gt
-
-import numpy as np
 import random
-from rllab.misc import logger
+
+import gtimer as gt
+import numpy as np
 from rllab.algos.base import Algorithm
+from rllab.misc import logger
 
 from sac.core.serializable import deep_clone
 from sac.misc import tf_utils
