@@ -155,7 +155,7 @@ class SAC(RLAlgorithm, Serializable):
         assert reparameterize == self._policy._reparameterize
         self._reparameterize = reparameterize
 
-        self.is_behavior = is_behavior
+        self.initial_is_behavior = initial_is_behavior
         self._save_full_state = save_full_state
 
         self._Da = self._env.action_space.flat_dim
