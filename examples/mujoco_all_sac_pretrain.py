@@ -223,6 +223,7 @@ def run_experiment(variant):
         tau=variant['tau'],
         # TODO: figure out what reparameterize is doing
         reparameterize=variant['reparameterize'],
+        initial_is_behavior=True,
         target_update_interval=variant['target_update_interval'],
         action_prior=variant['action_prior'],
 

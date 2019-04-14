@@ -90,6 +90,7 @@ class SAC(RLAlgorithm, Serializable):
             target_update_interval=1,
             action_prior='uniform',
             reparameterize=False,
+            initial_is_behavior=False,
 
             save_full_state=False,
     ):
@@ -122,6 +123,8 @@ class SAC(RLAlgorithm, Serializable):
             reparameterize ('bool'): If True, we use a gradient estimator for
                 the policy derived using the reparameterization trick. We use
                 a likelihood ratio based estimator otherwise.
+            initial_is_behavior (`bool`): If True, initial_exploration_policy is used
+	                as behavior policy.
             save_full_state (`bool`): If True, save the full class in the
                 snapshot. See `self.get_snapshot` for more information.
         """
@@ -151,6 +154,7 @@ class SAC(RLAlgorithm, Serializable):
         # policy actions are sampled from.
         assert reparameterize == self._policy._reparameterize
         self._reparameterize = reparameterize
+        self.initial_is_behavior = initial_is_behavior
 
         self._save_full_state = save_full_state
 
@@ -179,7 +183,8 @@ class SAC(RLAlgorithm, Serializable):
     def train(self):
         """Initiate training of the SAC instance."""
 
-        self._train(self._env, self._policy, self._initial_exploration_policy, self._pool)
+        self._train(self._env, self._policy, self._initial_exploration_policy, self._pool,
+                    initial_is_behavior=self.initial_is_behavior)
 
     def _init_placeholders(self):
         """Create input placeholders for the SAC algorithm.
