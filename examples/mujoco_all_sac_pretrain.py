@@ -68,7 +68,7 @@ ENV_PARAMS = {
 
         'snapshot_gap': 1000,
 
-        'behavior_polcy_path': [
+        'behavior_policy_path': [
             'humanoid-real-nvp-final-01b-00/itr_6000.pkl',
         ]
     },
@@ -86,7 +86,7 @@ def parse_args():
     parser.add_argument('--exp_name',type=str, default=timestamp())
     parser.add_argument('--mode', type=str, default='local')
     parser.add_argument('--log_dir', type=str, default=None)
-    parser.add_argument('--behavior_polcy_path', '-p',
+    parser.add_argument('--behavior_policy_path', '-p',
                         type=str, default=None)
     args = parser.parse_args()
 
@@ -103,9 +103,9 @@ def get_variants(args):
     elif args.mode == 'ec2':
         trained_policies_base = '/root/code/rllab/sac/policies/trained_policies'
 
-    params['behavior_polcy_path'] = [
+    params['behavior_policy_path'] = [
       os.path.join(trained_policies_base, p)
-      for p in params['behavior_polcy_path']
+      for p in params['behavior_policy_path']
     ]
 
     vg = VariantGenerator()
@@ -120,7 +120,7 @@ def get_variants(args):
 
 def load_behavior_policy(policy_path):
     with tf_utils.get_default_session().as_default():
-        with tf.variable_scope("behavior_polcy", reuse=False):
+        with tf.variable_scope("behavior_policy", reuse=False):
             snapshot = joblib.load(policy_path)
 
     policy = snapshot["policy"]
@@ -135,8 +135,8 @@ RLLAB_ENVS = {
 
 
 def run_experiment(variant):
-    behavior_polcy = load_behavior_policy(
-        policy_path=variant['behavior_polcy_path'])
+    behavior_policy = load_behavior_policy(
+        policy_path=variant['behavior_policy_path'])
 
     env_args = {
         name.replace('env_', '', 1): value
@@ -211,7 +211,7 @@ def run_experiment(variant):
         base_kwargs=base_kwargs,
         env=env,
         policy=policy,
-	    initial_exploration_policy=behavior_polcy,
+	    initial_exploration_policy=behavior_policy,
         pool=pool,
         qf1=qf1,
         qf2=qf2,
