@@ -2,7 +2,7 @@ import abc
 import gtimer as gt
 
 import numpy as np
-
+import random
 from rllab.misc import logger
 from rllab.algos.base import Algorithm
 
@@ -62,7 +62,7 @@ class RLAlgorithm(Algorithm):
         self._policy = None
         self._pool = None
 
-    def _train(self, env, policy, initial_exploration_policy, pool):
+    def _train(self, env, policy, initial_exploration_policy, pool, initial_is_behavior=False):
         """Perform RL training.
 
         Args:
@@ -71,6 +71,7 @@ class RLAlgorithm(Algorithm):
             initial_exploration_policy ('Policy'): Policy used for exploration
                 If None, then all exploration is done using policy
             pool (`PoolBase`): Sample pool to add samples to
+            is_behavior (`bool`): use initial_exploration_policy as behavior policy
         """
 
         self._init_training(env, policy, pool)
@@ -96,6 +97,12 @@ class RLAlgorithm(Algorithm):
                         if self._epoch_length * epoch >= self._n_initial_exploration_steps:
                             self.sampler.set_policy(policy)
                             initial_exploration_done = True
+                        else:
+                            if initial_is_behavior:
+                                if random.random() > 0.5:
+                                    self.sampler.set_policy(policy)
+                                else:
+                                    self.sampler.set_policy(initial_exploration_policy)
                     self.sampler.sample()
                     if not self.sampler.batch_ready():
                         continue

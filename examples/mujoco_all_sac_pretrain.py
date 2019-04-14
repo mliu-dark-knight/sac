@@ -226,6 +226,7 @@ def run_experiment(variant):
         target_update_interval=variant['target_update_interval'],
         action_prior=variant['action_prior'],
 
+        is_behavior=True,
         save_full_state=False,
     )
 
