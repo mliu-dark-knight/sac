@@ -1,27 +1,26 @@
 import argparse
-import joblib
 import os
 
-import tensorflow as tf
+import joblib
 import numpy as np
-
-from rllab.envs.normalized_env import normalize
-from rllab.envs.mujoco.swimmer_env import SwimmerEnv
+import tensorflow as tf
 from rllab.envs.mujoco.ant_env import AntEnv
 from rllab.envs.mujoco.humanoid_env import HumanoidEnv
+from rllab.envs.normalized_env import normalize
 from rllab.misc.instrument import VariantGenerator
 
+from examples.variants import M
 from sac.algos import SAC
 from sac.envs import (
     RandomGoalAntEnv, HierarchyProxyEnv)
+from sac.misc import tf_utils
 from sac.misc.instrument import run_sac_experiment
+from sac.misc.sampler import SimpleSampler
 from sac.misc.utils import timestamp
 from sac.policies import LatentSpacePolicy
-from sac.misc.sampler import SimpleSampler
+from sac.preprocessors import MLPPreprocessor
 from sac.replay_buffers import SimpleReplayBuffer
 from sac.value_functions import NNQFunction, NNVFunction
-from sac.preprocessors import MLPPreprocessor
-from sac.misc import tf_utils
 
 try:
     import git
@@ -36,8 +35,8 @@ COMMON_PARAMS = {
     'discount': 0.99,
     'target_update_interval': 1,
     'tau': 1e-2,
-    'layer_size': 128,
-    'batch_size': 128,
+    'layer_size': M,
+    'batch_size': 256,
     'max_pool_size': 1e6,
     'n_train_repeat': 1,
     'epoch_length': 1000,
@@ -65,7 +64,7 @@ ENV_PARAMS = {
         'n_epochs': int(5e3 + 1),
         'scale_reward': 100.0,
 
-        'preprocessing_hidden_sizes': (128, 128, 4),
+        'preprocessing_hidden_sizes': (M, M, 4),
         'policy_s_t_units': 2,
 
         'snapshot_gap': 500,
@@ -93,7 +92,7 @@ ENV_PARAMS = {
         'n_epochs': int(1e5 + 1),
         'scale_reward': 30,
 
-        'preprocessing_hidden_sizes': (128, 128, 16),
+        'preprocessing_hidden_sizes': (M, M, 16),
         'policy_s_t_units': 8,
 
         'snapshot_gap': 1000,
@@ -121,7 +120,7 @@ ENV_PARAMS = {
         'n_epochs': int(2e5 + 1),
         'scale_reward': 3.0,
 
-        'preprocessing_hidden_sizes': (128, 128, 42),
+        'preprocessing_hidden_sizes': (M, M, 42),
         'policy_s_t_units': 21,
 
         'snapshot_gap': 1000,
@@ -148,7 +147,7 @@ ENV_PARAMS = {
         'n_epochs': int(4e3 + 1),
         'scale_reward': 3.0,
 
-        'preprocessing_hidden_sizes': (128, 128, 16),
+        'preprocessing_hidden_sizes': (M, M, 16),
         'policy_s_t_units': 8,
 
         'snapshot_gap': 1000,
@@ -168,17 +167,18 @@ ENV_PARAMS = {
         'n_epochs': int(1e4 + 1),
         'scale_reward': 3.0,
 
-        'preprocessing_hidden_sizes': (128, 128, 42),
+        'preprocessing_hidden_sizes': (M, M, 42),
         'policy_s_t_units': 21,
 
-        'snapshot_gap': 2000,
+        'snapshot_gap': 1000,
 
         'low_level_policy_path': [
-            'humanoid-real-nvp-final-01b-00/itr_10000.pkl',
-            'humanoid-real-nvp-final-01b-01/itr_10000.pkl',
-            'humanoid-real-nvp-final-01b-02/itr_10000.pkl',
-            'humanoid-real-nvp-final-01b-03/itr_10000.pkl',
-            'humanoid-real-nvp-final-01b-04/itr_10000.pkl',
+            'humanoid-real-nvp-final-01b-00/itr_2000.pkl',
+            # 'humanoid-real-nvp-final-01b-00/itr_10000.pkl',
+            # 'humanoid-real-nvp-final-01b-01/itr_10000.pkl',
+            # 'humanoid-real-nvp-final-01b-02/itr_10000.pkl',
+            # 'humanoid-real-nvp-final-01b-03/itr_10000.pkl',
+            # 'humanoid-real-nvp-final-01b-04/itr_10000.pkl',
         ]
     },
 }
