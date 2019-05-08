@@ -320,6 +320,7 @@ def run_experiment(variant):
         mode="train",
         squash=False,
         bijector_config=bijector_config,
+        reparameterize=variant['reparameterize'],
         q_function=qf1,
         fix_h_on_reset=variant.get('policy_fix_h_on_reset', False),
         observations_preprocessor=observations_preprocessor,
@@ -340,6 +341,7 @@ def run_experiment(variant):
         scale_reward=variant['scale_reward'],
         discount=variant['discount'],
         tau=variant['tau'],
+        reparameterize=variant['reparameterize'],
         target_update_interval=variant['target_update_interval'],
         action_prior=variant['action_prior'],
 
