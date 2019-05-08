@@ -13,7 +13,7 @@ LSP_POLICY_PARAMS_BASE = {
     'action_prior': 'uniform',
     # 'preprocessing_hidden_sizes': None,
     'preprocessing_output_nonlinearity': 'relu',
-    'reparameterize': REPARAMETERIZE,
+    'reparameterize': False,
     'squash': True
 }
 

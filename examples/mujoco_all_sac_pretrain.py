@@ -49,7 +49,7 @@ COMMON_PARAMS = {
     'preprocessing_hidden_sizes': None,
     'preprocessing_output_nonlinearity': 'relu',
     'squash': True,
-    'reparameterize': True,
+    'reparameterize': False,
 
     'git_sha': git_rev
 }
