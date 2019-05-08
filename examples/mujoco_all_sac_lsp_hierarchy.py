@@ -50,6 +50,7 @@ COMMON_PARAMS = {
     'action_prior': 'normal',
     'preprocessing_hidden_sizes': None,
     'preprocessing_output_nonlinearity': 'relu',
+    'reparameterize': True,
 
     'git_sha': git_rev
 }
