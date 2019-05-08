@@ -166,7 +166,7 @@ ENV_PARAMS = {
         'env_name': 'humanoid-rllab',
         'max_path_length': 1000,
         'n_epochs': int(1e4 + 1),
-        'scale_reward': 3.0,
+        'scale_reward': 10.0,
 
         'preprocessing_hidden_sizes': (M, M, 42),
         'policy_s_t_units': 21,
