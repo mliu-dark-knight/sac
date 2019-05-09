@@ -4,7 +4,7 @@ from rllab.misc.instrument import VariantGenerator
 from sac.misc.utils import flatten, get_git_rev, deep_update
 
 M = 256
-REPARAMETERIZE = True
+REPARAMETERIZE = False
 
 LSP_POLICY_PARAMS_BASE = {
     'type': 'lsp',
@@ -13,7 +13,7 @@ LSP_POLICY_PARAMS_BASE = {
     'action_prior': 'uniform',
     # 'preprocessing_hidden_sizes': None,
     'preprocessing_output_nonlinearity': 'relu',
-    'reparameterize': False,
+    'reparameterize': REPARAMETERIZE,
     'squash': True
 }
 
@@ -268,7 +268,7 @@ SAMPLER_PARAMS = {
 }
 
 RUN_PARAMS_BASE = {
-    'seed': [1,2,3,4,5],
+    'seed': [34],
     'snapshot_mode': 'gap',
     'snapshot_gap': 1000,
     'sync_pkl': True,
